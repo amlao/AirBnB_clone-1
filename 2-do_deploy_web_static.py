@@ -9,6 +9,7 @@ from fabric.operations import run, put, sudo
 env.hosts = ['35.196.149.169', '35.185.80.112']
 env.user = 'ubuntu'
 
+
 def do_deploy(archive_path):
     """ distributes an archive to your web servers """
     if not os.path.exists(archive_path):
@@ -18,6 +19,7 @@ def do_deploy(archive_path):
     tmp_path = "/tmp/{}".format(file_name)
     no, wout = os.path.splitext(file_name)
     dest = "/data/web_static/releases/{}".format(no)
+    curr = "/data/web_static/current"
     try:
         put(archive_path, tmp_path)
         run("sudo mkdir -p {}".format(dest))
@@ -25,8 +27,8 @@ def do_deploy(archive_path):
         run("sudo rm {}".format(tmp_path))
         run("sudo mv {}/web_static/* {}/".format(dest, dest))
         run("sudo rm -rf {}/web_static".format(dest))
-        run("sudo rm -rf /data/web_static/current")
-        run("sudo ln -s {} /data/web_static/current".format(dest))
+        run("sudo rm -rf {}".format(curr))
+        run("sudo ln -s {} {}".format(dest, curr))
         return True
     except:
         return False

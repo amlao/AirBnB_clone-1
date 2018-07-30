@@ -11,10 +11,11 @@ do_deploy = __import__('2-do_deploy_web_static')
 env.hosts = ['35.196.149.169', '35.185.80.112']
 env.user = 'ubuntu'
 
+
 def deploy():
     """ return value of do_deploy """
     path = do_pack.do_pack()
     try:
-        return do_deploy(path)
+        return do_deploy.do_deploy(path)
     except BaseException:
         return False
