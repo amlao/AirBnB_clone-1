@@ -8,13 +8,14 @@ from datetime import datetime
 
 
 def do_pack():
-    """  return the archive path if the archive has been correctly generated """
+    """  return the archive path if the archive has correctly generated """
     try:
         archive = datetime.now().strftime("%Y%m%d%H%M%S")
         local("sudo mkdir -p versions")
         val = local("tar -cvzf versions/web_static_{}.tgz web_static/".
-              format(archive))
+                    format(archive))
         res = "versions/web_static_{:s}.tgz".format(archive)
         return res
-    except:
+
+    except BaseException:
         return None
