@@ -10,7 +10,6 @@ do_deploy = __import__('2-do_deploy_web_static')
 def deploy():
     """ return value of do_deploy """
     path = do_pack.do_pack()
-    try:
-        return do_deploy.do_deploy(path)
-    except BaseException:
+    if path is None:
         return False
+    return do_deploy.do_deploy(path)
