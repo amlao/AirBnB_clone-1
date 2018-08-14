@@ -11,13 +11,14 @@ class State(BaseModel, Base):
     '''
         Implementation for the State.
     '''
-    __tablename__ = 'states'
-    name = Column(String(128), nullable=False)
-    city = relationship("City", backref="state", cascade="all, delete-orphan")
+    if getenv('HBNB_TYPE_STORAGE') == 'db':
+        __tablename__ = 'states'
+        name = Column(String(128), nullable=False)
+        city = relationship("City", backref="state", cascade="delete")
 
     @property
     def cities(self):
-        '''
-            Returns all cities in a State
-        '''
+        """
+            a public getter for cities
+        """
         return [city for city in State.cities if city.state_id == self.id]

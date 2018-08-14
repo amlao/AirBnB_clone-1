@@ -15,9 +15,9 @@ from models.review import Review
 
 
 class DBStorage:
-    '''
+    """
         Database storage
-    '''
+    """
     __engine = None
     __session = None
 
@@ -82,3 +82,9 @@ class DBStorage:
                                        expire_on_commit=False)
         Session = scoped_session(session_factory)
         self.__session = Session()
+
+    def close(self):
+        """
+           clears all items and ends any transaction in progress
+        """
+        self.__session.remove()
