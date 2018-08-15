@@ -10,6 +10,12 @@ def hello_flask():
     """
     return "Hello HBNB!"
 
+@app.route('/', strict_slashes=False)
+def hbnb():
+    """
+       a script that starts a Flask web application
+    """
+    return "HBNB"
 
 if __name__ == "__main__":
     app.run(host='0.0.0.0', port=5000)

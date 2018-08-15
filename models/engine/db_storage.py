@@ -3,6 +3,8 @@
     Define class DBStorage
 '''
 import os
+from os import getenv
+import sqlalchemy
 from sqlalchemy.orm import sessionmaker, scoped_session
 from sqlalchemy import MetaData, create_engine
 from models.base_model import BaseModel, Base
