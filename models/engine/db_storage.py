@@ -51,10 +51,10 @@ class DBStorage:
                     key = "{}.{}".format(obj.__class__.name, obj.id)
                     obj_list[key] = obj
         else:
-            for k, v in modules.classes.items():
+            for k, v in models.classes.items():
                 for cl in self.__session.query(v):
-                    key = str(obj.__class__.__name__) + "." + str(obj.id)
-                    obj_list[key] = obj
+                    k = str(obj.__class__.__name__) + "." + str(obj.id)
+                    obj_list[k] = cl
         return obj_list
 
     def new(self, obj):
@@ -91,4 +91,4 @@ class DBStorage:
         """
            clears all items and ends any transaction in progress
         """
-        self.__session.remove()
+        self.__session.close()
