@@ -7,6 +7,7 @@ from os import getenv
 import sqlalchemy
 from sqlalchemy.orm import sessionmaker, scoped_session
 from sqlalchemy import MetaData, create_engine
+import models
 from models.base_model import BaseModel, Base
 from models.user import User
 from models.place import Place
@@ -44,13 +45,11 @@ class DBStorage:
         '''
         obj_list = {}
         if cls:
-            for obj in self.__session.query(cls).all():
-                key = "{}.{}".format(obj.__class__.__name__, obj.id)
-                obj_list[key] = obj
+            if type(cls) == str:
+                cls = models.classes[cls]
         else:
-            for tbl in Base.__subclasses__():
-                table = self.__session.query(tbl).all()
-                for obj in table:
+
+            for obj in self.__session.query(cls):
                     key = "{}.{}".format(obj.__class__.name, obj.id)
                     obj_list[key] = obj
         return obj_list
