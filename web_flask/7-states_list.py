@@ -9,7 +9,11 @@ def states_list():
     """
        the list of all State objects present in DBStorage
     """
-    return render_template('7-states_list.html', state_objs=storage.all(State))
+    state_obj = storage.all(State)
+    state_dict = []
+    for k, v in state_obj.items():
+        state_dict.append(v)
+    return render_template('7-states_list.html', state_dict=state_dict)
 
 @app.teardown_appcontext
 def teardown(exception):
