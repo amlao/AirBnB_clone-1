@@ -19,6 +19,7 @@ def states_list():
         state_dict.append(v)
     return render_template('7-states_list.html', state_dict=state_dict)
 
+
 @app.route('/cities_by_states', strict_slashes=False)
 def cities_by_state():
     """
@@ -37,6 +38,7 @@ def teardown_db(exception):
        closes the storage on teardown
     """
     storage.close()
+
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port='5000')
