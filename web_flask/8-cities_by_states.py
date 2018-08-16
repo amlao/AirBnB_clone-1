@@ -8,19 +8,34 @@ from models import storage, State, City
 app = Flask(__name__)
 
 
+@app.route('/states_list', strict_slashes=False)
+def states_list():
+    """
+       the list of all State objects present in DBStorage
+    """
+    state_obj = storage.all(State)
+    state_dict = []
+    for k, v in state_obj.items():
+        state_dict.append(v)
+    return render_template('7-states_list.html', state_dict=state_dict)
+
 @app.route('/cities_by_states', strict_slashes=False)
 def cities_by_state():
-    """display the states and cities listed in alphabetical order"""
-    city_objs = storage.all(State)
-    city_dict = []
-    for k, v in city_objs.items():
-        city_dict.append(v)
-    return render_template('8-cities_by_states.html', city_dict=city_dict)
+    """
+       display the states and cities listed in alphabetical order
+    """
+    state_obj = storage.all(State)
+    state_dict = []
+    for k, v in state_obj.items():
+        state_dict.append(v)
+    return render_template('8-cities_by_states.html', state_dict=state_dict)
 
 
 @app.teardown_appcontext
 def teardown_db(exception):
-    """closes the storage on teardown"""
+    """
+       closes the storage on teardown
+    """
     storage.close()
 
 if __name__ == '__main__':

@@ -15,16 +15,15 @@ class State(BaseModel, Base):
     '''
     __tablename__ = 'states'
     name = Column(String(128), nullable=False)
-    city = relationship("City", backref="state", cascade="delete")
 
-    @property
-    def cities(self):
-        """
-            a public getter for cities
-        """
-        if getenv('HBNB_TYPE_STORAGE') == 'db':
-            city = relationship("City", backref="state", cascade="delete")
-        else:
-            city_list = models.storage.all(City)
-            return [apple for big, apple in city_list.items()
-                    if apple.state_id == self.id]
+    if os.getenv('HBNB_TYPE_STORAGE') == 'db':
+        cities = relationship("City", backref="state", cascade="delete")
+    else:
+        @property
+        def cities(self):
+            """returns a list of every city associated with this state"""
+            city_list = []
+            for city in models.storage.all(City).values():
+                if city.state_id == self.id:
+                    city_list.append(city)
+            return city_list
